@@ -1,0 +1,47 @@
+---
+interface Props {
+  name: string;
+  category: string;
+  url: string;
+  logo: string;
+  logoAlt: string;
+  logoWidth: number;
+  logoHeight: number;
+  description: string;
+  index: string;
+}
+
+const {
+  name,
+  category,
+  url,
+  logo,
+  logoAlt,
+  logoWidth,
+  logoHeight,
+  description,
+  index,
+} = Astro.props;
+---
+
+<article class="project-card">
+  <div class="project-card-top">
+    <span class="project-index">{index}</span>
+    <span class="project-category">{category}</span>
+  </div>
+  <h3>{name}</h3>
+  <p>{description}</p>
+  <a class="project-link" href={url} target="_blank" rel="noreferrer noopener">
+    Visit {name}
+    <span class="project-link-note">(opens in a new tab)</span>
+  </a>
+  <img
+    class="project-logo"
+    src={logo}
+    alt={logoAlt}
+    width={logoWidth}
+    height={logoHeight}
+    loading="lazy"
+    decoding="async"
+  />
+</article>

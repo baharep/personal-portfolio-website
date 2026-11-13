@@ -1,0 +1,146 @@
+<aside class="chat-widget" aria-label="Ask about Bahar Emampour">
+  <section class="chat-panel" id="chat-panel" aria-labelledby="chat-title" hidden>
+    <header class="chat-header">
+      <h2 id="chat-title">Ask about Bahar</h2>
+      <button class="chat-close" id="chat-close" type="button" aria-label="Close chat">×</button>
+    </header>
+    <ol class="chat-messages" id="chat-messages" aria-live="polite" aria-relevant="additions">
+      <li class="chat-message chat-message-assistant">
+        <span class="chat-speaker">Portfolio assistant</span>
+        <p>Ask me about Bahar’s experience, skills, projects, or interests.</p>
+      </li>
+    </ol>
+    <p class="chat-status" id="chat-status" role="status" aria-live="polite"></p>
+    <form class="chat-form" id="chat-form">
+      <label class="sr-only" for="chat-input">Your question about Bahar</label>
+      <input
+        id="chat-input"
+        name="question"
+        type="text"
+        maxlength="500"
+        autocomplete="off"
+        placeholder="Ask a question..."
+        required
+      />
+      <button id="chat-send" type="submit">Send</button>
+    </form>
+    <p class="chat-disclaimer">
+      Questions are sent to OpenRouter; answers use the public information on this portfolio.
+    </p>
+  </section>
+  <button
+    class="chat-launcher"
+    id="chat-launcher"
+    type="button"
+    aria-expanded="false"
+    aria-controls="chat-panel"
+  >
+    Ask about Bahar
+  </button>
+</aside>
+
+<script>
+  interface ChatMessage {
+    role: "user" | "assistant";
+    content: string;
+  }
+
+  const launcher = document.querySelector<HTMLButtonElement>("#chat-launcher");
+  const closeButton = document.querySelector<HTMLButtonElement>("#chat-close");
+  const panel = document.querySelector<HTMLElement>("#chat-panel");
+  const form = document.querySelector<HTMLFormElement>("#chat-form");
+  const input = document.querySelector<HTMLInputElement>("#chat-input");
+  const sendButton = document.querySelector<HTMLButtonElement>("#chat-send");
+  const messages = document.querySelector<HTMLOListElement>("#chat-messages");
+  const status = document.querySelector<HTMLParagraphElement>("#chat-status");
+
+  if (!launcher || !closeButton || !panel || !form || !input || !sendButton || !messages || !status) {
+    throw new Error("Chat widget markup is incomplete.");
+  }
+
+  const chatLauncher = launcher;
+  const chatCloseButton = closeButton;
+  const chatPanel = panel;
+  const chatForm = form;
+  const chatInput = input;
+  const chatSendButton = sendButton;
+  const chatMessages = messages;
+  const chatStatus = status;
+  const conversation: ChatMessage[] = [];
+
+  function setPanelOpen(open: boolean) {
+    chatPanel.hidden = !open;
+    chatLauncher.setAttribute("aria-expanded", String(open));
+    if (open) chatInput.focus();
+    else chatLauncher.focus();
+  }
+
+  function addMessage(role: ChatMessage["role"], content: string) {
+    const item = document.createElement("li");
+    item.className = `chat-message chat-message-${role}`;
+    const speaker = document.createElement("span");
+    speaker.className = "chat-speaker";
+    speaker.textContent = role === "user" ? "You" : "Portfolio assistant";
+    const text = document.createElement("p");
+    text.textContent = content;
+    item.append(speaker, text);
+    chatMessages.append(item);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  function getResponseValue(value: unknown, key: "reply" | "error"): string | null {
+    if (typeof value !== "object" || value === null || !(key in value)) {
+      return null;
+    }
+    const result = Reflect.get(value, key);
+    return typeof result === "string" ? result : null;
+  }
+
+  chatLauncher.addEventListener("click", () => setPanelOpen(chatPanel.hidden));
+  chatCloseButton.addEventListener("click", () => setPanelOpen(false));
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !chatPanel.hidden) setPanelOpen(false);
+  });
+
+  chatForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const question = chatInput.value.trim();
+    if (!question || chatSendButton.disabled) return;
+
+    addMessage("user", question);
+    conversation.push({ role: "user", content: question });
+    if (conversation.length > 8) conversation.splice(0, conversation.length - 8);
+    chatInput.value = "";
+    chatSendButton.disabled = true;
+    chatStatus.textContent = "Thinking...";
+
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: conversation }),
+      });
+      const data: unknown = await response.json();
+      if (!response.ok) {
+        throw new Error(
+          getResponseValue(data, "error") ?? "The assistant could not respond. Please try again.",
+        );
+      }
+
+      const reply = getResponseValue(data, "reply");
+      if (!reply) throw new Error("The assistant returned an invalid response. Please try again.");
+      addMessage("assistant", reply);
+      conversation.push({ role: "assistant", content: reply });
+      if (conversation.length > 8) conversation.splice(0, conversation.length - 8);
+      chatStatus.textContent = "";
+    } catch (error) {
+      conversation.pop();
+      chatInput.value = question;
+      chatInput.focus();
+      chatStatus.textContent =
+        error instanceof Error ? error.message : "The assistant could not respond. Please try again.";
+    } finally {
+      chatSendButton.disabled = false;
+    }
+  });
+</script>

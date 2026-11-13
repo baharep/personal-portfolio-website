@@ -1,0 +1,29 @@
+{
+  "name": "multidisciplinary-portfolio",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "test": "npm run build && node --test"
+  },
+  "dependencies": {
+    "@astrojs/vercel": "^11.0.21",
+    "astro": "^7.4.11"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "typescript": "^5.8.3"
+  },
+  "overrides": {
+    "@vercel/nft": {
+      "glob": "14.0.2"
+    },
+    "@vercel/routing-utils": {
+      "path-to-regexp": "6.3.0"
+    }
+  }
+}

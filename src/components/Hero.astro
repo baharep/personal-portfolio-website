@@ -1,0 +1,34 @@
+---
+import { portfolio } from "../data/portfolio";
+---
+
+<section class="hero section-shell" id="home" aria-labelledby="hero-title">
+  <div class="hero-copy">
+    <p class="eyebrow"><span class="eyebrow-mark" aria-hidden="true"></span> Engineering · Education · Digital work</p>
+    <h1 id="hero-title">Multidisciplinary work, shaped by <em>learning and ideas.</em></h1>
+    <p class="hero-intro">{portfolio.introduction}</p>
+    <div class="hero-actions">
+      <a class="button button-dark" href="#work">Explore selected work</a>
+      <a class="text-link" href="#contact">Get in touch</a>
+    </div>
+    <p class="hero-note">Grounded in engineering. Shaped by teaching and digital projects.</p>
+  </div>
+  <div class="hero-portrait-wrap">
+    <div class="portrait-frame">
+      <img
+        class="hero-portrait"
+        src="/images/portrait.jpg"
+        alt="Bahar Emampour standing outdoors"
+        width="724"
+        height="994"
+        fetchpriority="high"
+      />
+    </div>
+    <div class="portrait-caption">
+      <span>Independent thinking</span>
+      <span class="caption-dot" aria-hidden="true"></span>
+      <span>Continuous learning</span>
+    </div>
+    <span class="portrait-orbit" aria-hidden="true"></span>
+  </div>
+</section>

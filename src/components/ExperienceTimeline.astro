@@ -1,0 +1,30 @@
+---
+interface ExperienceEntry {
+  role: string;
+  organization?: string;
+  period?: string;
+  summary?: string;
+}
+
+interface Props {
+  entries: readonly ExperienceEntry[];
+}
+
+const { entries } = Astro.props;
+---
+
+<div class="experience-list">
+  {entries.map((entry, index) => (
+    <article class="experience-item">
+      <div class="experience-meta">
+        <span class="experience-index">{String(index + 1).padStart(2, "0")}</span>
+        {entry.period && <span class="experience-period">{entry.period}</span>}
+      </div>
+      <div class="experience-content">
+        <h3>{entry.role}</h3>
+        {entry.organization && <p class="experience-organization">{entry.organization}</p>}
+        {entry.summary && <p class="experience-summary">{entry.summary}</p>}
+      </div>
+    </article>
+  ))}
+</div>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" width="1000" height="560" viewBox="0 120 1000 560">
+  <!-- Generator: Adobe Illustrator 29.6.1, SVG Export Plug-In . SVG Version: 2.1.1 Build 9)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: #c0d08f;
+      }
+
+      .st0, .st1, .st2, .st3 {
+        stroke-width: .75px;
+      }
+
+      .st0, .st1, .st2, .st3, .st4 {
+        stroke: #231f20;
+        stroke-miterlimit: 10;
+      }
+
+      .st1 {
+        fill: #566b30;
+      }
+
+      .st2 {
+        fill: #c6c4a3;
+      }
+
+      .st3 {
+        fill: #fdf9d2;
+      }
+
+      .st4 {
+        fill: #fff;
+        font-family: TimesNewRomanPSMT, 'Times New Roman';
+        font-size: 70px;
+        letter-spacing: .07em;
+        stroke-width: 1.5px;
+      }
+    </style>
+  </defs>
+  <path class="st0" d="M374.26,293.15c0-60.6-99.02-154.8-99.02-154.8,0,0-99.02,94.2-99.02,154.8s44.33,109.72,99.02,109.72,99.02-49.12,99.02-109.72Z"/>
+  <path class="st2" d="M159.07,303.85c-60.6,0-154.8,99.02-154.8,99.02,0,0,94.2,99.02,154.8,99.02s109.72-44.33,109.72-99.02-49.12-99.02-109.72-99.02Z"/>
+  <path class="st3" d="M176.23,512.59c0,60.6,99.02,154.8,99.02,154.8,0,0,99.02-94.2,99.02-154.8,0-60.6-44.33-109.72-99.02-109.72-54.69,0-99.02,49.12-99.02,109.72Z"/>
+  <path class="st1" d="M378.51,501.89c60.6,0,154.8-99.02,154.8-99.02,0,0-94.2-99.02-154.8-99.02-60.6,0-109.72,44.33-109.72,99.02,0,54.69,49.12,99.02,109.72,99.02Z"/>
+  <text class="st4" transform="translate(401.05 578.68)"><tspan x="0" y="0">Dr.Zeinab </tspan><tspan x="0" y="66">Emampour</tspan></text>
+</svg>
