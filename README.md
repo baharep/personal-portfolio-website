@@ -2,7 +2,7 @@
 
 A responsive portfolio presenting the professional background, experience, and selected website projects documented in `resome.pdf`. The homepage is prerendered; a small server endpoint powers the AI portfolio assistant.
 
-The visual identity pairs sky blue with a bright lemon yellow (`#fff44f`): blue carries text and surfaces, while lemon is used only for accents such as dots, short lines, the sun disc behind the portrait, and the main button. No words are highlighted with a yellow background, and yellow is never used as text on a light background. Headings use Fraunces (soft axis) and body text uses Manrope, both self-hosted through Fontsource.
+The sticky header is deep sky blue with the signature logo in white. The visual identity pairs sky blue with a bright lemon yellow (`#fff44f`): blue carries text and surfaces, while lemon is used only for accents such as dots, short lines, the sun disc behind the portrait, and the main button. No words are highlighted with a yellow background, and yellow is never used as text on a light background. Headings use Fraunces (soft axis) and body text uses Manrope, both self-hosted through Fontsource.
 
 The logo is the name “Bahar” as a monochrome signature (`public/images/logos/bahar-signature.svg`), set in Allura and converted to outlined paths so it looks identical everywhere. It is ink on light backgrounds and white in the footer, with “EMAMPOUR” set beside it in small spaced capitals; it carries no color for now. The favicon is a white signature “B” on an ink square.
 
@@ -15,6 +15,7 @@ The footer links to LinkedIn, Instagram, and `baharemampour.com` with monochrome
 - [baharemampour.vercel.app](https://baharemampour.vercel.app) — this portfolio, built with AI tools
 - [mosharanco.com](https://mosharanco.com) — energy company website
 - [drzeinabemampour.com](https://drzeinabemampour.com) — general practitioner website
+- [order-portfolio-website.vercel.app](https://order-portfolio-website.vercel.app) — website for ordering personal portfolio sites ([repository](https://github.com/baharep/order-portfolio-website))
 
 ## Stack
 

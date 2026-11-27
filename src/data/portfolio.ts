@@ -42,6 +42,17 @@ export const portfolio = {
       description:
         "Website work for a general practitioner: WordPress layout and content organization, site setup and administration, launch participation, and topic research.",
     },
+    {
+      name: "order-portfolio-website.vercel.app",
+      category: "Portfolio ordering website",
+      url: "https://order-portfolio-website.vercel.app",
+      logo: "/images/logos/order-portfolio-website.svg",
+      logoAlt: "Order portfolio website preview",
+      logoWidth: 240,
+      logoHeight: 100,
+      description:
+        "A website for ordering personal portfolio sites, designed and built with AI tools: a one-screen landing page and a bilingual English/Persian brief that collects content, colors, fonts and photos, then sends the summary on Telegram.",
+    },
   ],
   experience: [
     {

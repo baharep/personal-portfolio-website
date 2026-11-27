@@ -95,22 +95,33 @@ test("experience lists the six roles in the requested order", () => {
   ]);
 });
 
-test("selected work lists Bahar's site first, then Mosharanco and Dr. Zeinab Emampour", () => {
+test("selected work lists Bahar's site, Mosharanco, Dr. Zeinab Emampour, then the order website", () => {
   const work = section("work");
-  const projectLinks = links().filter(({ attributes }) =>
-    /href="https:\/\/(?:baharemampour\.vercel\.app|mosharanco\.com|drzeinabemampour\.com)"/.test(attributes),
-  );
+  const projectLinks = [...work.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/g)].map(([, attributes, content]) => ({
+    attributes,
+    text: content.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim(),
+  }));
   assert.deepEqual(
     projectLinks.map(({ attributes }) => attributes.match(/href="([^"]+)"/)[1]),
-    ["https://baharemampour.vercel.app", "https://mosharanco.com", "https://drzeinabemampour.com"],
+    [
+      "https://baharemampour.vercel.app",
+      "https://mosharanco.com",
+      "https://drzeinabemampour.com",
+      "https://order-portfolio-website.vercel.app",
+    ],
   );
   for (const { attributes, text } of projectLinks) {
     assert.match(attributes, /target="_blank"[^>]*rel="noreferrer noopener"/);
     assert.match(text, /^Visit \S+ \(opens in a new tab\)$/);
   }
-  for (const alt of ["Mosharanco logo", "Dr. Zainab Emampour logo"]) {
+  for (const alt of ["Mosharanco logo", "Dr. Zainab Emampour logo", "Order portfolio website preview"]) {
     assert.match(work, new RegExp(`<img[^>]*alt="${alt}"`));
   }
+});
+
+test("the header is blue with a white logo", () => {
+  assert.match(css, /\.site-header\s*\{[^}]*background:\s*rgb\(21 100 138/s);
+  assert.match(css, /\.site-header \.brand-signature\s*\{[^}]*invert\(1\)/s);
 });
 
 test("skill groups follow the requested order and contents", () => {
