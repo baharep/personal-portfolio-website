@@ -234,6 +234,14 @@ test("skill groups follow the requested order and lead with the AI items", () =>
   assert.doesNotMatch(html, /SolidWorks/);
 });
 
+test("on phones the portrait comes first and long hero words cannot widen the page", () => {
+  assert.match(css, /\.hero\s*\{[^}]*grid-template-columns:\s*minmax\(0, 1\.08fr\) minmax\(0, 0\.82fr\)/s);
+  const phone = css.match(/@media \(max-width: 680px\)\s*\{([\s\S]*?)\n\}/)?.[1];
+  assert.ok(phone, "expected the phone media query");
+  assert.match(phone, /\.hero\s*\{[^}]*grid-template-columns:\s*minmax\(0, 1fr\)/s);
+  assert.match(phone, /\.hero-portrait-wrap\s*\{[^}]*order:\s*-1/s);
+});
+
 test("the hero lists the five disciplines with Creativity first and Art last", () => {
   const list = html.match(/<ul class="discipline-list"[^>]*>([\s\S]*?)<\/ul>/)?.[1];
   assert.ok(list, "expected the discipline list");
