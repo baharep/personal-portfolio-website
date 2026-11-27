@@ -1160,6 +1160,22 @@ h2 em {
   color: var(--lemon);
 }
 
+.footer-offer {
+  display: inline-block;
+  margin-top: 2rem;
+  color: var(--lemon);
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-style: italic;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 6px;
+}
+
+.footer-offer:hover {
+  color: #fff;
+}
+
 .footer-bottom {
   display: flex;
   align-items: center;

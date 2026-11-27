@@ -183,3 +183,10 @@ test("metadata, robots, and sitemap use the production domain", async () => {
   assert.match(await read("../public/robots.txt"), /Sitemap: https:\/\/baharemampour\.com\/sitemap\.xml/);
   assert.match(await read("../public/sitemap.xml"), /<loc>https:\/\/baharemampour\.com\/<\/loc>/);
 });
+
+test("the footer offer links to the separate order website", () => {
+  const offer = links().find(({ text }) => text === "Want a website like this?");
+  assert.ok(offer, "expected the footer offer link");
+  assert.match(offer.attributes, /href="https:\/\/order-portfolio-website\.vercel\.app"/);
+  assert.match(offer.attributes, /rel="noreferrer noopener"/);
+});

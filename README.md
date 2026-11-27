@@ -8,7 +8,7 @@ The logo is the name “Bahar” as a monochrome signature (`public/images/logos
 
 The hero lists Creativity · Engineering · Education · Digital Work · Art and uses the café portrait (`zero.jpg`, cropped from the waist up and stripped of its photo metadata into `public/images/portrait.jpg`/`.webp`). The sticky header links to About me, Education, Experiences, Selected work, Skills, Outside of work, and Contact; the current section is highlighted while scrolling. On narrower screens the links sit in one horizontally scrollable row, with round arrow buttons and a fade at whichever edge still hides links, so no link looks cut off. A script measures the header height so that anchor jumps land just above each section heading. The page also includes a six-card experience grid led by the AI product design role, three Selected work cards, a fully visible skills grid, a compact three-photo hobbies collage, and an AI assistant that answers questions using only the facts in the portfolio.
 
-The footer links to LinkedIn, Instagram, and `baharemampour.com` with monochrome icons.
+The footer links to LinkedIn, Instagram, and `baharemampour.com` with monochrome icons. Below them, “Want a website like this?” links to the separate [order website](https://order-portfolio-website.vercel.app) ([repository](https://github.com/baharep/order-portfolio-website)), where people can order a portfolio site of their own.
 
 ## Featured projects
 
