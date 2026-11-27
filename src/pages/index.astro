@@ -8,6 +8,7 @@ import SiteFooter from "../components/SiteFooter.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import SkillGroups from "../components/SkillGroups.astro";
 import ChatWidget from "../components/ChatWidget.astro";
+import T from "../components/T.astro";
 import { portfolio } from "../data/portfolio";
 import "../styles/global.css";
 
@@ -15,7 +16,7 @@ export const prerender = true;
 ---
 
 <BaseLayout>
-  <a class="skip-link" href="#main-content">Skip to content</a>
+  <a class="skip-link" href="#main-content"><T t={{ en: "Skip to content", fa: "رفتن به محتوا" }} /></a>
   <div class="page-shell">
     <SiteHeader />
     <main id="main-content">
@@ -23,17 +24,20 @@ export const prerender = true;
 
       <section class="about-section section-shell section-space" id="about" aria-labelledby="about-title">
         <div class="about-label">
-          <p class="eyebrow">01 / About</p>
+          <p class="eyebrow"><T t={{ en: "01 / About", fa: "۰۱ / درباره" }} /></p>
           <span class="about-rule" aria-hidden="true"></span>
         </div>
         <div class="about-content">
-          <h2 id="about-title">Different disciplines.<br /><em>A connected perspective.</em></h2>
-          <p>{portfolio.about}</p>
-          <a class="text-link" href="#education">Explore education</a>
+          <h2 id="about-title">
+            <span class="en">Different disciplines.<br /><em>A connected perspective.</em></span>
+            <span class="fa" lang="fa">رشته‌های گوناگون.<br /><em>نگاهی پیوسته.</em></span>
+          </h2>
+          <p><T t={portfolio.about} /></p>
+          <a class="text-link" href="#education"><T t={{ en: "Explore education", fa: "مشاهده‌ی تحصیلات" }} /></a>
         </div>
         <div class="about-aside">
-          <p class="eyebrow">Personal value</p>
-          <p class="personal-value">{portfolio.personalValue}</p>
+          <p class="eyebrow"><T t={{ en: "Personal value", fa: "ارزش شخصی" }} /></p>
+          <p class="personal-value"><T t={portfolio.personalValue} /></p>
         </div>
       </section>
 
@@ -41,10 +45,10 @@ export const prerender = true;
         <div class="education-heading">
           <SectionHeading
             id="education-title"
-            eyebrow="02 / Education"
-            title="Education & graduation."
+            eyebrow={{ en: "02 / Education", fa: "۰۲ / تحصیلات" }}
+            title={{ en: "Education & graduation.", fa: "تحصیلات و فارغ‌التحصیلی." }}
           />
-          <p class="education-note">A technical academic foundation, alongside experience in teaching and communication.</p>
+          <p class="education-note"><T t={{ en: "A technical academic foundation, alongside experience in teaching and communication.", fa: "پایه‌ای فنی و دانشگاهی، همراه با تجربه در تدریس و ارتباطات." }} /></p>
         </div>
         <div class="education-layout">
           <div class="education-list">
@@ -61,13 +65,13 @@ export const prerender = true;
                     decoding="async"
                   />
                   <div>
-                    <h3>{item.qualification}</h3>
-                    <p>{item.institution}</p>
-                    <span>{item.location}</span>
+                    <h3><T t={item.qualification} /></h3>
+                    <p><T t={item.institution} /></p>
+                    <span><T t={item.location} /></span>
                   </div>
                 </div>
                 {"period" in item && item.period && (
-                  <span class="education-period">{item.period}</span>
+                  <span class="education-period"><T t={item.period} /></span>
                 )}
               </article>
             ))}
@@ -88,9 +92,12 @@ export const prerender = true;
       <section class="experience-section section-shell section-space" id="experience" aria-labelledby="experience-title">
         <SectionHeading
           id="experience-title"
-          eyebrow="03 / Experience"
-          title="A career across disciplines."
-          description="Experience across teaching, energy, digital projects, and administrative support."
+          eyebrow={{ en: "03 / Experience", fa: "۰۳ / تجربه" }}
+          title={{ en: "A career across disciplines.", fa: "مسیری میان رشته‌ها." }}
+          description={{
+            en: "Experience across teaching, energy, digital projects, and administrative support.",
+            fa: "تجربه در تدریس، انرژی، پروژه‌های دیجیتال و پشتیبانی اداری.",
+          }}
         />
         <ExperienceTimeline entries={portfolio.experience} />
       </section>
@@ -99,9 +106,12 @@ export const prerender = true;
         <div class="section-shell">
           <SectionHeading
             id="work-title"
-            eyebrow="04 / Selected work"
-            title="Digital work, made tangible."
-            description="Four website projects bringing together layout, content, research, AI-assisted building, and site administration."
+            eyebrow={{ en: "04 / Selected work", fa: "۰۴ / نمونه‌کارها" }}
+            title={{ en: "Digital work, made tangible.", fa: "کار دیجیتال، ملموس و دیدنی." }}
+            description={{
+              en: "Four website projects bringing together layout, content, research, AI-assisted building, and site administration.",
+              fa: "چهار پروژه‌ی وب‌سایت که چیدمان، محتوا، پژوهش، ساخت با کمک هوش مصنوعی و مدیریت سایت را کنار هم می‌آورند.",
+            }}
           />
           <div class="project-grid">
             {portfolio.projects.map((project, index) => (
@@ -115,9 +125,12 @@ export const prerender = true;
         <div class="section-shell">
           <SectionHeading
             id="skills-title"
-            eyebrow="05 / Skills"
-            title="Skills & strengths."
-            description="Personal strengths, web and AI tools, sports, and languages."
+            eyebrow={{ en: "05 / Skills", fa: "۰۵ / مهارت‌ها" }}
+            title={{ en: "Skills & strengths.", fa: "مهارت‌ها و توانمندی‌ها." }}
+            description={{
+              en: "Personal strengths, web and AI tools, sports, and languages.",
+              fa: "توانمندی‌های فردی، ابزارهای وب و هوش مصنوعی، ورزش و زبان‌ها.",
+            }}
           />
           <SkillGroups groups={portfolio.skills} />
         </div>
@@ -128,12 +141,15 @@ export const prerender = true;
           <div class="hobbies-copy">
             <SectionHeading
               id="hobbies-title"
-              eyebrow="06 / Outside of work"
-              title="Hobbies & interests."
-              description="Activities that make space for creativity, movement, and exploring new places."
+              eyebrow={{ en: "06 / Outside of work", fa: "۰۶ / بیرون از کار" }}
+              title={{ en: "Hobbies & interests.", fa: "سرگرمی‌ها و علایق." }}
+              description={{
+                en: "Activities that make space for creativity, movement, and exploring new places.",
+                fa: "فعالیت‌هایی که برای خلاقیت، تحرک و کشف جاهای تازه فضا می‌سازند.",
+              }}
             />
             <ul class="hobbies-list">
-              {portfolio.hobbies.map((hobby) => <li>{hobby}</li>)}
+              {portfolio.hobbies.map((hobby) => <li><T t={hobby} /></li>)}
             </ul>
           </div>
           <div class="hobbies-collage" role="group" aria-label="Bahar enjoying activities outside work">

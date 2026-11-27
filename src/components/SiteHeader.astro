@@ -1,12 +1,14 @@
 ---
+import T from "./T.astro";
+
 const links = [
-  { id: "about", label: "About me" },
-  { id: "education", label: "Education" },
-  { id: "experience", label: "Experiences" },
-  { id: "work", label: "Selected work" },
-  { id: "skills", label: "Skills" },
-  { id: "outside-of-work", label: "Outside of work" },
-  { id: "contact", label: "Contact" },
+  { id: "about", label: { en: "About me", fa: "درباره‌ی من" } },
+  { id: "education", label: { en: "Education", fa: "تحصیلات" } },
+  { id: "experience", label: { en: "Experiences", fa: "تجربه‌ها" } },
+  { id: "work", label: { en: "Selected work", fa: "نمونه‌کارها" } },
+  { id: "skills", label: { en: "Skills", fa: "مهارت‌ها" } },
+  { id: "outside-of-work", label: { en: "Outside of work", fa: "بیرون از کار" } },
+  { id: "contact", label: { en: "Contact", fa: "تماس" } },
 ];
 ---
 
@@ -20,11 +22,15 @@ const links = [
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 6-6 6 6 6" /></svg>
     </button>
     <nav aria-label="Main navigation">
-      {links.map((link) => <a href={`#${link.id}`} data-nav-link>{link.label}</a>)}
+      {links.map((link) => <a href={`#${link.id}`} data-nav-link><T t={link.label} /></a>)}
     </nav>
     <button class="nav-arrow nav-arrow-right" type="button" aria-label="Show more menu items" data-nav-step="1" hidden>
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6" /></svg>
     </button>
+  </div>
+  <div class="lang-switch" role="group" aria-label="Language">
+    <button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+    <button type="button" data-set-lang="fa" aria-pressed="false" lang="fa">فارسی</button>
   </div>
 </header>
 
@@ -40,12 +46,18 @@ const links = [
   const syncHeaderHeight = () =>
     document.documentElement.style.setProperty("--header-height", `${header.offsetHeight}px`);
 
+  // In right-to-left (Persian) scrollLeft runs from 0 down to -max; measure from the left edge either way.
+  const isRtl = () => getComputedStyle(nav).direction === "rtl";
+  const maxScroll = () => nav.scrollWidth - nav.clientWidth;
+  const fromLeft = () => (isRtl() ? maxScroll() + nav.scrollLeft : nav.scrollLeft);
+  const scrollToFromLeft = (x: number) => nav.scrollTo({ left: isRtl() ? x - maxScroll() : x });
+
   // On narrow screens the nav scrolls sideways: show an arrow on each side that has hidden links.
   const syncArrows = () => {
-    const max = nav.scrollWidth - nav.clientWidth;
+    const max = maxScroll();
     const [left, right] = arrows;
-    left.hidden = nav.scrollLeft <= 2;
-    right.hidden = nav.scrollLeft >= max - 2;
+    left.hidden = fromLeft() <= 2;
+    right.hidden = fromLeft() >= max - 2;
     wrap.classList.toggle("fade-left", !left.hidden);
     wrap.classList.toggle("fade-right", !right.hidden);
   };
@@ -62,10 +74,11 @@ const links = [
 
   // Scroll only the nav row (never scrollIntoView: inside a sticky header it moves the whole page).
   const revealInNav = (link: HTMLAnchorElement) => {
-    const start = link.offsetLeft - nav.offsetLeft;
+    const visible = fromLeft();
+    const start = link.getBoundingClientRect().left - nav.getBoundingClientRect().left + visible;
     const end = start + link.offsetWidth;
-    if (start < nav.scrollLeft) nav.scrollTo({ left: start - 40 });
-    else if (end > nav.scrollLeft + nav.clientWidth) nav.scrollTo({ left: end - nav.clientWidth + 40 });
+    if (start < visible) scrollToFromLeft(start - 40);
+    else if (end > visible + nav.clientWidth) scrollToFromLeft(end - nav.clientWidth + 40);
   };
 
   let activeId = "";
@@ -115,4 +128,28 @@ const links = [
   syncHeaderHeight();
   syncArrows();
   updateFromScroll();
+
+  // EN / فارسی switch: the layout's head script already applied the saved language before paint.
+  const root = document.documentElement;
+  const langButtons = [...header.querySelectorAll<HTMLButtonElement>("[data-set-lang]")];
+  const showLang = (lang: string) => {
+    for (const b of langButtons) b.setAttribute("aria-pressed", String(b.dataset.setLang === lang));
+  };
+  for (const b of langButtons) {
+    b.addEventListener("click", () => {
+      const lang = b.dataset.setLang === "fa" ? "fa" : "en";
+      root.dataset.lang = lang;
+      root.lang = lang;
+      root.dir = lang === "fa" ? "rtl" : "ltr";
+      try {
+        localStorage.setItem("site-lang", lang);
+      } catch {}
+      showLang(lang);
+      document.dispatchEvent(new CustomEvent("langchange", { detail: lang }));
+      activeId = "";
+      updateFromScroll();
+      syncArrows();
+    });
+  }
+  showLang(root.dataset.lang ?? "en");
 </script>

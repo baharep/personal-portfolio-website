@@ -1,18 +1,22 @@
+---
+import T from "./T.astro";
+---
+
 <aside class="chat-widget" aria-label="Ask about Bahar Emampour">
   <section class="chat-panel" id="chat-panel" aria-labelledby="chat-title" hidden>
     <header class="chat-header">
-      <h2 id="chat-title">Ask about Bahar</h2>
+      <h2 id="chat-title"><T t={{ en: "Ask about Bahar", fa: "درباره‌ی بهار بپرسید" }} /></h2>
       <button class="chat-close" id="chat-close" type="button" aria-label="Close chat">×</button>
     </header>
     <ol class="chat-messages" id="chat-messages" aria-live="polite" aria-relevant="additions">
       <li class="chat-message chat-message-assistant">
-        <span class="chat-speaker">Portfolio assistant</span>
-        <p>Ask me about Bahar’s experience, skills, projects, or interests.</p>
+        <span class="chat-speaker"><T t={{ en: "Portfolio assistant", fa: "دستیار پورتفولیو" }} /></span>
+        <p><T t={{ en: "Ask me about Bahar’s experience, skills, projects, or interests.", fa: "درباره‌ی تجربه‌ها، مهارت‌ها، پروژه‌ها یا علایق بهار از من بپرسید." }} /></p>
       </li>
     </ol>
     <p class="chat-status" id="chat-status" role="status" aria-live="polite"></p>
     <form class="chat-form" id="chat-form">
-      <label class="sr-only" for="chat-input">Your question about Bahar</label>
+      <label class="sr-only" for="chat-input"><T t={{ en: "Your question about Bahar", fa: "پرسش شما درباره‌ی بهار" }} /></label>
       <input
         id="chat-input"
         name="question"
@@ -20,12 +24,13 @@
         maxlength="500"
         autocomplete="off"
         placeholder="Ask a question..."
+        data-placeholder-fa="سؤالتان را بپرسید..."
         required
       />
-      <button id="chat-send" type="submit">Send</button>
+      <button id="chat-send" type="submit"><T t={{ en: "Send", fa: "ارسال" }} /></button>
     </form>
     <p class="chat-disclaimer">
-      Questions are sent to OpenRouter; answers use the public information on this portfolio.
+      <T t={{ en: "Questions are sent to OpenRouter; answers use the public information on this portfolio.", fa: "پرسش‌ها به OpenRouter فرستاده می‌شوند؛ پاسخ‌ها فقط از اطلاعات عمومی همین پورتفولیو استفاده می‌کنند." }} />
     </p>
   </section>
   <button
@@ -35,7 +40,7 @@
     aria-expanded="false"
     aria-controls="chat-panel"
   >
-    Ask about Bahar
+    <T t={{ en: "Ask about Bahar", fa: "درباره‌ی بهار بپرسید" }} />
   </button>
 </aside>
 
@@ -68,6 +73,16 @@
   const chatStatus = status;
   const conversation: ChatMessage[] = [];
 
+  // Text built in script follows the EN / فارسی switch (html[data-lang]).
+  const isFa = () => document.documentElement.dataset.lang === "fa";
+  const say = (en: string, fa: string) => (isFa() ? fa : en);
+  const placeholderEn = chatInput.placeholder;
+  const syncPlaceholder = () => {
+    chatInput.placeholder = isFa() ? (chatInput.dataset.placeholderFa ?? placeholderEn) : placeholderEn;
+  };
+  document.addEventListener("langchange", syncPlaceholder);
+  syncPlaceholder();
+
   function setPanelOpen(open: boolean) {
     chatPanel.hidden = !open;
     chatLauncher.setAttribute("aria-expanded", String(open));
@@ -80,7 +95,7 @@
     item.className = `chat-message chat-message-${role}`;
     const speaker = document.createElement("span");
     speaker.className = "chat-speaker";
-    speaker.textContent = role === "user" ? "You" : "Portfolio assistant";
+    speaker.textContent = role === "user" ? say("You", "شما") : say("Portfolio assistant", "دستیار پورتفولیو");
     const text = document.createElement("p");
     text.textContent = content;
     item.append(speaker, text);
@@ -112,7 +127,7 @@
     if (conversation.length > 8) conversation.splice(0, conversation.length - 8);
     chatInput.value = "";
     chatSendButton.disabled = true;
-    chatStatus.textContent = "Thinking...";
+    chatStatus.textContent = say("Thinking...", "در حال فکر کردن...");
 
     try {
       const response = await fetch("/api/chat", {
@@ -123,12 +138,13 @@
       const data: unknown = await response.json();
       if (!response.ok) {
         throw new Error(
-          getResponseValue(data, "error") ?? "The assistant could not respond. Please try again.",
+          getResponseValue(data, "error") ??
+            say("The assistant could not respond. Please try again.", "دستیار نتوانست پاسخ دهد. لطفاً دوباره تلاش کنید."),
         );
       }
 
       const reply = getResponseValue(data, "reply");
-      if (!reply) throw new Error("The assistant returned an invalid response. Please try again.");
+      if (!reply) throw new Error(say("The assistant returned an invalid response. Please try again.", "پاسخ دستیار نامعتبر بود. لطفاً دوباره تلاش کنید."));
       addMessage("assistant", reply);
       conversation.push({ role: "assistant", content: reply });
       if (conversation.length > 8) conversation.splice(0, conversation.length - 8);
@@ -138,7 +154,9 @@
       chatInput.value = question;
       chatInput.focus();
       chatStatus.textContent =
-        error instanceof Error ? error.message : "The assistant could not respond. Please try again.";
+        error instanceof Error
+          ? error.message
+          : say("The assistant could not respond. Please try again.", "دستیار نتوانست پاسخ دهد. لطفاً دوباره تلاش کنید.");
     } finally {
       chatSendButton.disabled = false;
     }

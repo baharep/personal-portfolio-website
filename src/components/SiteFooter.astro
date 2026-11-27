@@ -1,12 +1,16 @@
 ---
 import { portfolio } from "../data/portfolio";
+import T from "./T.astro";
 ---
 
 <footer class="site-footer" id="contact">
   <div class="footer-copy">
-    <p class="eyebrow">A thoughtful next step</p>
-    <h2>Let’s start a <em>conversation.</em></h2>
-    <p>Connect through my website and social profiles below.</p>
+    <p class="eyebrow"><T t={{ en: "A thoughtful next step", fa: "قدم بعدی" }} /></p>
+    <h2>
+      <span class="en">Let’s start a <em>conversation.</em></span>
+      <span class="fa" lang="fa">بیایید <em>گفت‌وگو</em> را شروع کنیم.</span>
+    </h2>
+    <p><T t={{ en: "Connect through my website and social profiles below.", fa: "از طریق وب‌سایت و شبکه‌های اجتماعی من در ارتباط باشید." }} /></p>
   </div>
   <div class="footer-links">
     {portfolio.socialLinks.map((link) => (
@@ -37,7 +41,7 @@ import { portfolio } from "../data/portfolio";
             </svg>
           )}
         </span>
-        <span>{link.label}</span>
+        <span><T t={link.name} /></span>
       </a>
     ))}
   </div>
@@ -49,7 +53,7 @@ import { portfolio } from "../data/portfolio";
           <path d="M3 8.5h18M6 6.3h.01M8.3 6.3h.01M7 13h7M7 16h4" />
         </svg>
       </span>
-      <span>Want a website like this?</span>
+      <span><T t={{ en: "Want a website like this?", fa: "وب‌سایتی مثل این می‌خواهید؟" }} /></span>
     </a>
   </div>
   <div class="footer-bottom">
@@ -57,7 +61,7 @@ import { portfolio } from "../data/portfolio";
       <img class="brand-signature" src="/images/logos/bahar-signature.svg" alt="" width="247" height="75" />
       <span class="brand-surname">Emampour</span>
     </a>
-    <span>Designed by Bahar Emampour.</span>
-    <a href="#home">Back to top</a>
+    <span><T t={{ en: "Designed by Bahar Emampour.", fa: "طراحی: بهار امام‌پور" }} /></span>
+    <a href="#home"><T t={{ en: "Back to top", fa: "بازگشت به بالا" }} /></a>
   </div>
 </footer>

@@ -1,7 +1,10 @@
 ---
+import T from "./T.astro";
+
+type Text = { readonly en: string; readonly fa: string };
 interface SkillGroup {
-  name: string;
-  items: readonly string[];
+  name: Text;
+  items: readonly Text[];
 }
 
 interface Props {
@@ -14,9 +17,9 @@ const { groups } = Astro.props;
 <div class="skill-grid">
   {groups.map((group) => (
     <article class="skill-group">
-      <h3>{group.name}</h3>
+      <h3><T t={group.name} /></h3>
       <ul>
-        {group.items.map((item) => <li>{item}</li>)}
+        {group.items.map((item) => <li><T t={item} /></li>)}
       </ul>
     </article>
   ))}

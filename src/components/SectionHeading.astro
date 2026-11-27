@@ -1,16 +1,19 @@
 ---
+import T from "./T.astro";
+
+type Text = { readonly en: string; readonly fa: string };
 interface Props {
-  eyebrow: string;
-  title: string;
+  eyebrow: Text;
+  title: Text;
   id: string;
-  description?: string;
+  description?: Text;
 }
 
 const { eyebrow, title, id, description } = Astro.props;
 ---
 
 <div class="section-heading">
-  <p class="eyebrow">{eyebrow}</p>
-  <h2 id={id}>{title}</h2>
-  {description && <p class="section-description">{description}</p>}
+  <p class="eyebrow"><T t={eyebrow} /></p>
+  <h2 id={id}><T t={title} /></h2>
+  {description && <p class="section-description"><T t={description} /></p>}
 </div>

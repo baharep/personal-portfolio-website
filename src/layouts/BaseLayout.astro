@@ -2,6 +2,7 @@
 import "@fontsource-variable/fraunces/soft.css";
 import "@fontsource-variable/fraunces/soft-italic.css";
 import "@fontsource-variable/manrope";
+import "@fontsource-variable/vazirmatn";
 
 interface Props {
   title?: string;
@@ -17,7 +18,7 @@ const socialImageUrl = new URL("/images/portrait.jpg", canonicalUrl);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -33,6 +34,18 @@ const socialImageUrl = new URL("/images/portrait.jpg", canonicalUrl);
     <meta property="og:image:alt" content="Portrait of Bahar Emampour" />
     <meta name="twitter:card" content="summary_large_image" />
     <title>{title}</title>
+    <script is:inline>
+      // Apply the saved language (or a Persian browser) before the page paints, so it never flashes English first.
+      (function () {
+        var saved = null;
+        try { saved = localStorage.getItem("site-lang"); } catch (e) {}
+        var lang = saved === "fa" || (!saved && (navigator.language || "").indexOf("fa") === 0) ? "fa" : "en";
+        var root = document.documentElement;
+        root.dataset.lang = lang;
+        root.lang = lang;
+        root.dir = lang === "fa" ? "rtl" : "ltr";
+      })();
+    </script>
   </head>
   <body>
     <slot />

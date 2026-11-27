@@ -1,9 +1,12 @@
 ---
+import T from "./T.astro";
+
+type Text = { readonly en: string; readonly fa: string };
 interface ExperienceEntry {
-  role: string;
-  organization?: string;
-  period?: string;
-  summary?: string;
+  role: Text;
+  organization?: Text;
+  period?: Text;
+  summary?: Text;
 }
 
 interface Props {
@@ -11,20 +14,24 @@ interface Props {
 }
 
 const { entries } = Astro.props;
+const faDigits = (n: string) => n.replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[Number(d)]);
 ---
 
 <div class="experience-list">
-  {entries.map((entry, index) => (
-    <article class="experience-item">
-      <div class="experience-meta">
-        <span class="experience-index">{String(index + 1).padStart(2, "0")}</span>
-        {entry.period && <span class="experience-period">{entry.period}</span>}
-      </div>
-      <div class="experience-content">
-        <h3>{entry.role}</h3>
-        {entry.organization && <p class="experience-organization">{entry.organization}</p>}
-        {entry.summary && <p class="experience-summary">{entry.summary}</p>}
-      </div>
-    </article>
-  ))}
+  {entries.map((entry, index) => {
+    const number = String(index + 1).padStart(2, "0");
+    return (
+      <article class="experience-item">
+        <div class="experience-meta">
+          <span class="experience-index"><T t={{ en: number, fa: faDigits(number) }} /></span>
+          {entry.period && <span class="experience-period"><T t={entry.period} /></span>}
+        </div>
+        <div class="experience-content">
+          <h3><T t={entry.role} /></h3>
+          {entry.organization && <p class="experience-organization"><T t={entry.organization} /></p>}
+          {entry.summary && <p class="experience-summary"><T t={entry.summary} /></p>}
+        </div>
+      </article>
+    );
+  })}
 </div>

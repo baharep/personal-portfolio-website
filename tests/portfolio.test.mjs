@@ -58,7 +58,7 @@ test("on phones the portrait comes first and long words cannot widen the page", 
 
 test("hero shows the five disciplines and the portrait", () => {
   const list = html.match(/<ul class="discipline-list"[^>]*>([\s\S]*?)<\/ul>/)?.[1];
-  assert.deepEqual(texts(list, /<li>([^<]+)<\/li>/g), ["Creativity", "Engineering", "Education", "Digital Work", "Art"]);
+  assert.deepEqual(texts(list, /<li><span class="en">([^<]+)<\/span>/g), ["Creativity", "Engineering", "Education", "Digital Work", "Art"]);
   assert.match(html, /<source srcset="\/images\/portrait\.webp" type="image\/webp"/);
   assert.match(html, /src="\/images\/portrait\.jpg"[^>]*alt="Bahar Emampour sitting in a blue café/);
 });
@@ -85,7 +85,7 @@ test("about covers the requested details", () => {
 });
 
 test("experience lists the six roles in the requested order", () => {
-  assert.deepEqual(texts(section("experience"), /<h3>([^<]+)<\/h3>/g), [
+  assert.deepEqual(texts(section("experience"), /<h3><span class="en">([^<]+)<\/span>/g), [
     "Product Designer working with AI",
     "Manager",
     "Mathematics Teacher",
@@ -112,7 +112,7 @@ test("selected work lists Bahar's site, Mosharanco, Dr. Zeinab Emampour, then th
   );
   for (const { attributes, text } of projectLinks) {
     assert.match(attributes, /target="_blank"[^>]*rel="noreferrer noopener"/);
-    assert.match(text, /^Visit \S+ \(opens in a new tab\)$/);
+    assert.match(text, /^Visit \S+ \(opens in a new tab\) مشاهده‌ی \S+ \(در زبانه‌ی جدید\)$/);
   }
   for (const alt of ["Mosharanco logo", "Dr. Zainab Emampour logo", "Order portfolio website preview"]) {
     assert.match(work, new RegExp(`<img[^>]*alt="${alt}"`));
@@ -127,7 +127,7 @@ test("the header is blue with a white logo", () => {
 test("skill groups follow the requested order and contents", () => {
   const skills = section("skills");
   assert.deepEqual(
-    [...skills.matchAll(/<h3>([^<]+)<\/h3><ul><li>([^<]+)<\/li>/g)].map(([, name, first]) => [name, first]),
+    [...skills.matchAll(/<h3><span class="en">([^<]+)<\/span>.*?<\/h3><ul><li><span class="en">([^<]+)<\/span>/g)].map(([, name, first]) => [name, first]),
     [
       ["Personal strengths", "Creative thinking"],
       ["Web &amp; content", "Web applications built with AI"],
@@ -195,8 +195,25 @@ test("metadata, robots, and sitemap use the production domain", async () => {
   assert.match(await read("../public/sitemap.xml"), /<loc>https:\/\/baharemampour\.com\/<\/loc>/);
 });
 
+test("an EN / فارسی switch in the header shows one language at a time, Persian right-to-left", () => {
+  const header = html.match(/<header\b[^>]*id="site-header"[^>]*>([\s\S]*?)<\/header>/)?.[1];
+  assert.ok(header);
+  assert.match(header, /class="lang-switch" role="group" aria-label="Language"/);
+  assert.match(header, /data-set-lang="en"[^>]*>EN</);
+  assert.match(header, /data-set-lang="fa"[^>]*>فارسی</);
+  assert.match(html, /<html lang="en" data-lang="en"/);
+  assert.match(html, /localStorage\.getItem\("site-lang"\)[\s\S]*root\.dir = lang === "fa" \? "rtl" : "ltr"/);
+  assert.match(css, /html\[data-lang="en"\] \.fa,\s*html\[data-lang="fa"\] \.en/);
+  assert.match(css, /Vazirmatn/);
+  // Every English text has its Persian twin.
+  const en = [...html.matchAll(/<span class="en">/g)].length;
+  const fa = [...html.matchAll(/<span class="fa" lang="fa">/g)].length;
+  assert.ok(en > 80, `expected the whole page to be bilingual, found ${en}`);
+  assert.equal(en, fa);
+});
+
 test("the footer offer links to the separate order website", () => {
-  const offer = links().find(({ text }) => text === "Want a website like this?");
+  const offer = links().find(({ text }) => text.startsWith("Want a website like this?"));
   assert.ok(offer, "expected the footer offer link");
   assert.match(offer.attributes, /href="https:\/\/order-portfolio-website\.vercel\.app"/);
   assert.match(offer.attributes, /rel="noreferrer noopener"/);

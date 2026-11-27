@@ -1,21 +1,34 @@
 ---
 import { portfolio } from "../data/portfolio";
+import T from "./T.astro";
+
+const ui = {
+  explore: { en: "Explore selected work", fa: "مشاهده‌ی نمونه‌کارها" },
+  contact: { en: "Get in touch", fa: "در تماس باشیم" },
+  note: {
+    en: "Grounded in engineering. Shaped by teaching, digital projects, and art.",
+    fa: "ریشه در مهندسی؛ شکل‌گرفته با تدریس، پروژه‌های دیجیتال و هنر.",
+  },
+  thinking: { en: "Independent thinking", fa: "تفکر مستقل" },
+  learning: { en: "Continuous learning", fa: "یادگیری مداوم" },
+};
 ---
 
 <section class="hero section-shell" id="home" aria-labelledby="hero-title">
   <div class="hero-copy">
     <ul class="discipline-list" aria-label="Areas of work">
-      {portfolio.disciplines.map((discipline) => <li>{discipline}</li>)}
+      {portfolio.disciplines.map((discipline) => <li><T t={discipline} /></li>)}
     </ul>
     <h1 id="hero-title">
-      Multidisciplinary work, shaped by <em>learning and ideas.</em>
+      <span class="en">Where Ideas Meet <em>Thought, Creativity &amp; Experience</em></span>
+      <span class="fa" lang="fa">جایی میان اندیشه، تجربه و خلاقیت <em>بر پایه ایده‌ها.</em></span>
     </h1>
-    <p class="hero-intro">{portfolio.introduction}</p>
+    <p class="hero-intro"><T t={portfolio.introduction} /></p>
     <div class="hero-actions">
-      <a class="button button-primary" href="#work">Explore selected work</a>
-      <a class="text-link" href="#contact">Get in touch</a>
+      <a class="button button-primary" href="#work"><T t={ui.explore} /></a>
+      <a class="text-link" href="#contact"><T t={ui.contact} /></a>
     </div>
-    <p class="hero-note">Grounded in engineering. Shaped by teaching, digital projects, and art.</p>
+    <p class="hero-note"><T t={ui.note} /></p>
   </div>
   <div class="hero-portrait-wrap">
     <span class="portrait-sun" aria-hidden="true"></span>
@@ -33,9 +46,9 @@ import { portfolio } from "../data/portfolio";
       </picture>
     </div>
     <div class="portrait-caption">
-      <span>Independent thinking</span>
+      <span><T t={ui.thinking} /></span>
       <span class="caption-dot" aria-hidden="true"></span>
-      <span>Continuous learning</span>
+      <span><T t={ui.learning} /></span>
     </div>
     <span class="portrait-orbit" aria-hidden="true"></span>
   </div>
