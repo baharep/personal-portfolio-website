@@ -3,6 +3,9 @@ const languages = ["Persian (Farsi)", "English"] as const;
 export const portfolio = {
   birthYear: 1992,
   personalValue: "Growth",
+  disciplines: ["Creativity", "Engineering", "Education", "Digital Work", "Art"],
+  about:
+    "Born in 1992, I am an engineering graduate of the University of Tehran. My strengths include continuous learning, creative thinking, communication skills, writing, and artistic activities. My experience spans teaching, research, website projects, connecting with people, content creation, and administration. Outside work, I enjoy sports, singing, travel, and exploring nature.",
   introduction:
     "A multidisciplinary professional with an academic background in Civil and Environmental Engineering and experience across teaching, website projects, research, and content creation.",
   projects: [
@@ -28,8 +31,25 @@ export const portfolio = {
       description:
         "Website work for a general practitioner: WordPress layout and content organization, site setup and administration, launch participation, and topic research.",
     },
+    {
+      name: "baharemampour.vercel.app",
+      category: "Personal portfolio built with AI",
+      url: "https://baharemampour.vercel.app",
+      logo: "/images/logos/bahar-signature.svg",
+      logoAlt: "Bahar signature logo",
+      logoWidth: 247,
+      logoHeight: 75,
+      description:
+        "This portfolio: a personal web application designed and built with AI tools, covering visual identity, content structure, responsive layout, and an AI assistant that answers questions about my background.",
+    },
   ],
   experience: [
+    {
+      role: "Product Designer working with AI",
+      organization: "Personal portfolio — baharemampour.vercel.app",
+      summary:
+        "Designed and built this personal website with AI tools, from visual identity and layout to content and an AI portfolio assistant.",
+    },
     {
       role: "Manager",
       organization: "Solar power installation and energy company",
@@ -76,36 +96,16 @@ export const portfolio = {
       summary:
         "Assisted with administrative and executive management activities.",
     },
-    {
-      role: "Product Designer working with AI",
-    },
   ],
   skills: [
-    {
-      name: "Web & content",
-      items: [
-        "WordPress website management",
-        "WordPress themes and customization",
-        "Website content creation and administration",
-        "Social media content creation",
-      ],
-    },
-    {
-      name: "Engineering & creative tools",
-      items: [
-        "SolidWorks",
-        "Basic product design activities",
-        "Adobe Photoshop (basic)",
-        "Adobe Premiere (basic)",
-      ],
-    },
     {
       name: "Personal strengths",
       items: [
         "Creative thinking",
         "Flexibility and ability to adapt to new conditions",
-        "Good vocal ability",
+        "Learning new things",
         "Ability to learn and keep learning",
+        "Good vocal ability",
         "Communication and connecting with others, especially teenagers and young adults",
         "Writing",
         "Research and online information gathering",
@@ -115,8 +115,27 @@ export const portfolio = {
       ],
     },
     {
+      name: "Web & content",
+      items: [
+        "Web applications built with AI",
+        "WordPress website management",
+        "WordPress themes and customization",
+        "Website content creation and administration",
+        "Social media content creation",
+      ],
+    },
+    {
+      name: "Engineering & creative tools",
+      items: [
+        "Working with AI tools",
+        "Basic product design activities",
+        "Adobe Photoshop (basic)",
+        "Adobe Premiere (basic)",
+      ],
+    },
+    {
       name: "Sports",
-      items: ["Volleyball", "Swimming", "Running"],
+      items: ["Volleyball", "Swimming", "Running", "Padel"],
     },
     {
       name: "Languages",

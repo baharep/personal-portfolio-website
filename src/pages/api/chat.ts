@@ -83,6 +83,7 @@ function extractReply(value: unknown): string | null {
 function profileContext(): string {
   return JSON.stringify({
     introduction: portfolio.introduction,
+    about: portfolio.about,
     experience: portfolio.experience,
     projects: portfolio.projects,
     skills: portfolio.skills,

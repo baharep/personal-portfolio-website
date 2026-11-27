@@ -9,6 +9,7 @@ interface Props {
   logoHeight: number;
   description: string;
   index: string;
+  featured?: boolean;
 }
 
 const {
@@ -21,10 +22,11 @@ const {
   logoHeight,
   description,
   index,
+  featured = false,
 } = Astro.props;
 ---
 
-<article class="project-card">
+<article class={featured ? "project-card project-card-featured" : "project-card"}>
   <div class="project-card-top">
     <span class="project-index">{index}</span>
     <span class="project-category">{category}</span>
