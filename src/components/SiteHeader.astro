@@ -13,37 +13,62 @@ const links = [
 <header class="site-header" id="site-header">
   <a class="brand" href="#home" aria-label="Bahar Emampour home">
     <img class="brand-signature" src="/images/logos/bahar-signature.svg" alt="" width="247" height="75" />
+    <span class="brand-surname">Emampour</span>
   </a>
-  <nav aria-label="Main navigation">
-    {links.map((link) => <a href={`#${link.id}`} data-nav-link>{link.label}</a>)}
-  </nav>
+  <div class="nav-wrap">
+    <button class="nav-arrow nav-arrow-left" type="button" aria-label="Show earlier menu items" data-nav-step="-1" hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 6-6 6 6 6" /></svg>
+    </button>
+    <nav aria-label="Main navigation">
+      {links.map((link) => <a href={`#${link.id}`} data-nav-link>{link.label}</a>)}
+    </nav>
+    <button class="nav-arrow nav-arrow-right" type="button" aria-label="Show more menu items" data-nav-step="1" hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6" /></svg>
+    </button>
+  </div>
 </header>
 
 <script>
-  const header = document.querySelector<HTMLElement>("#site-header");
-  const links = [...document.querySelectorAll<HTMLAnchorElement>("[data-nav-link]")];
-  const root = document.documentElement;
+  const header = document.querySelector<HTMLElement>("#site-header")!;
+  const nav = header.querySelector<HTMLElement>("nav")!;
+  const wrap = header.querySelector<HTMLElement>(".nav-wrap")!;
+  const links = [...nav.querySelectorAll<HTMLAnchorElement>("[data-nav-link]")];
+  const arrows = [...header.querySelectorAll<HTMLButtonElement>("[data-nav-step]")];
+  const sections = links.map((link) => document.getElementById(link.hash.slice(1))).filter((s) => s !== null);
 
-  // Keep the anchor offset equal to the real header height (it changes when the nav wraps).
-  const syncHeaderHeight = () => {
-    if (header) root.style.setProperty("--header-height", `${header.offsetHeight}px`);
+  // Anchors land just below the header, whose height changes when the nav moves to its own row.
+  const syncHeaderHeight = () =>
+    document.documentElement.style.setProperty("--header-height", `${header.offsetHeight}px`);
+
+  // On narrow screens the nav scrolls sideways: show an arrow on each side that has hidden links.
+  const syncArrows = () => {
+    const max = nav.scrollWidth - nav.clientWidth;
+    const [left, right] = arrows;
+    left.hidden = nav.scrollLeft <= 2;
+    right.hidden = nav.scrollLeft >= max - 2;
+    wrap.classList.toggle("fade-left", !left.hidden);
+    wrap.classList.toggle("fade-right", !right.hidden);
   };
-  syncHeaderHeight();
-  if (header) new ResizeObserver(syncHeaderHeight).observe(header);
 
-  const nav = document.querySelector<HTMLElement>("#site-header nav");
-  let activeId = "";
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  for (const arrow of arrows) {
+    arrow.addEventListener("click", () =>
+      nav.scrollBy({
+        left: Number(arrow.dataset.navStep) * nav.clientWidth * 0.6,
+        behavior: reduceMotion.matches ? "auto" : "smooth",
+      }),
+    );
+  }
 
-  // Only the nav row may scroll sideways to reveal the active link (narrow screens).
-  // Never use scrollIntoView here: inside a sticky header it can scroll the whole page.
+  // Scroll only the nav row (never scrollIntoView: inside a sticky header it moves the whole page).
   const revealInNav = (link: HTMLAnchorElement) => {
-    if (!nav || nav.scrollWidth <= nav.clientWidth) return;
-    const left = link.offsetLeft - nav.offsetLeft;
-    const right = left + link.offsetWidth;
-    if (left < nav.scrollLeft) nav.scrollTo({ left: left - 8 });
-    else if (right > nav.scrollLeft + nav.clientWidth) nav.scrollTo({ left: right - nav.clientWidth + 8 });
+    const start = link.offsetLeft - nav.offsetLeft;
+    const end = start + link.offsetWidth;
+    if (start < nav.scrollLeft) nav.scrollTo({ left: start - 40 });
+    else if (end > nav.scrollLeft + nav.clientWidth) nav.scrollTo({ left: end - nav.clientWidth + 40 });
   };
 
+  let activeId = "";
   const setActive = (id: string) => {
     if (id === activeId) return;
     activeId = id;
@@ -59,29 +84,12 @@ const links = [
     }
   };
 
-  let lockUntil = 0;
-  for (const link of links) {
-    link.addEventListener("click", () => {
-      setActive(link.hash.slice(1));
-      lockUntil = Date.now() + 900;
-    });
-  }
-
-  const sections = links
-    .map((link) => document.getElementById(link.hash.slice(1)))
-    .filter((section): section is HTMLElement => section !== null);
-
+  // Highlight the section under the header; the last one once the page bottom is reached.
   const updateFromScroll = () => {
-    if (Date.now() < lockUntil) return;
-    const offset = (header?.offsetHeight ?? 0) + window.innerHeight * 0.25;
-    let current = "";
-    for (const section of sections) {
-      if (section.getBoundingClientRect().top <= offset) current = section.id;
-    }
-    if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 4) {
-      current = sections.at(-1)?.id ?? current;
-    }
-    setActive(current);
+    const line = header.offsetHeight + window.innerHeight * 0.25;
+    const atBottom = window.innerHeight + window.scrollY >= document.body.scrollHeight - 4;
+    const current = atBottom ? sections.at(-1) : sections.findLast((s) => s.getBoundingClientRect().top <= line);
+    setActive(current?.id ?? "");
   };
 
   let ticking = false;
@@ -97,5 +105,14 @@ const links = [
     },
     { passive: true },
   );
+  nav.addEventListener("scroll", syncArrows, { passive: true });
+  new ResizeObserver(() => {
+    syncHeaderHeight();
+    syncArrows();
+  }).observe(header);
+  for (const link of links) link.addEventListener("click", () => setActive(link.hash.slice(1)));
+
+  syncHeaderHeight();
+  syncArrows();
   updateFromScroll();
 </script>

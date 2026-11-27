@@ -18,3 +18,11 @@ dist/
 
 # Astro
 .astro/
+
+# Source photos and notes kept locally, not part of the site
+/1.jpg
+/2.jpg
+/3.png
+/zero.jpg
+/Sunlit Graduation Portrait by Stone Emblem.png
+/openrouter-models.txt

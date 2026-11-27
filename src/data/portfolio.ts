@@ -10,6 +10,17 @@ export const portfolio = {
     "A multidisciplinary professional with an academic background in Civil and Environmental Engineering and experience across teaching, website projects, research, and content creation.",
   projects: [
     {
+      name: "baharemampour.vercel.app",
+      category: "Personal portfolio built with AI",
+      url: "https://baharemampour.vercel.app",
+      logo: "/images/logos/bahar-signature.svg",
+      logoAlt: "Bahar signature logo",
+      logoWidth: 247,
+      logoHeight: 75,
+      description:
+        "This portfolio: a personal web application designed and built with AI tools, covering visual identity, content structure, responsive layout, and an AI assistant that answers questions about my background.",
+    },
+    {
       name: "mosharanco.com",
       category: "Energy company website",
       url: "https://mosharanco.com",
@@ -30,17 +41,6 @@ export const portfolio = {
       logoHeight: 560,
       description:
         "Website work for a general practitioner: WordPress layout and content organization, site setup and administration, launch participation, and topic research.",
-    },
-    {
-      name: "baharemampour.vercel.app",
-      category: "Personal portfolio built with AI",
-      url: "https://baharemampour.vercel.app",
-      logo: "/images/logos/bahar-signature.svg",
-      logoAlt: "Bahar signature logo",
-      logoWidth: 247,
-      logoHeight: 75,
-      description:
-        "This portfolio: a personal web application designed and built with AI tools, covering visual identity, content structure, responsive layout, and an AI assistant that answers questions about my background.",
     },
   ],
   experience: [

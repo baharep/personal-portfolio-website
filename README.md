@@ -4,17 +4,17 @@ A responsive portfolio presenting the professional background, experience, and s
 
 The visual identity pairs sky blue with a bright lemon yellow (`#fff44f`): blue carries text and surfaces, while lemon is used only for accents such as dots, short lines, the sun disc behind the portrait, and the main button. No words are highlighted with a yellow background, and yellow is never used as text on a light background. Headings use Fraunces (soft axis) and body text uses Manrope, both self-hosted through Fontsource.
 
-The logo is the name “Bahar” as a monochrome signature (`public/images/logos/bahar-signature.svg`), set in Allura and converted to outlined paths so it looks identical everywhere. It is ink on light backgrounds and white in the footer, and it carries no surname and no color for now. The favicon is a white signature “B” on an ink square.
+The logo is the name “Bahar” as a monochrome signature (`public/images/logos/bahar-signature.svg`), set in Allura and converted to outlined paths so it looks identical everywhere. It is ink on light backgrounds and white in the footer, with “EMAMPOUR” set beside it in small spaced capitals; it carries no color for now. The favicon is a white signature “B” on an ink square.
 
-The hero lists Creativity · Engineering · Education · Digital Work · Art and uses the café portrait (`zero.jpg`, cropped from the waist up and stripped of its photo metadata into `public/images/portrait.jpg`/`.webp`). The sticky header links to About me, Education, Experiences, Selected work, Skills, Outside of work, and Contact; the current section is highlighted while scrolling, and on narrower screens the links sit in one horizontally scrollable row. A script measures the header height so that anchor jumps land just above each section heading. The page also includes a six-card experience grid led by the AI product design role, three Selected work cards, a fully visible skills grid, a compact three-photo hobbies collage, and an AI assistant that answers questions using only the facts in the portfolio.
+The hero lists Creativity · Engineering · Education · Digital Work · Art and uses the café portrait (`zero.jpg`, cropped from the waist up and stripped of its photo metadata into `public/images/portrait.jpg`/`.webp`). The sticky header links to About me, Education, Experiences, Selected work, Skills, Outside of work, and Contact; the current section is highlighted while scrolling. On narrower screens the links sit in one horizontally scrollable row, with round arrow buttons and a fade at whichever edge still hides links, so no link looks cut off. A script measures the header height so that anchor jumps land just above each section heading. The page also includes a six-card experience grid led by the AI product design role, three Selected work cards, a fully visible skills grid, a compact three-photo hobbies collage, and an AI assistant that answers questions using only the facts in the portfolio.
 
 The footer links to LinkedIn, Instagram, and `baharemampour.com` with monochrome icons.
 
 ## Featured projects
 
+- [baharemampour.vercel.app](https://baharemampour.vercel.app) — this portfolio, built with AI tools
 - [mosharanco.com](https://mosharanco.com) — energy company website
 - [drzeinabemampour.com](https://drzeinabemampour.com) — general practitioner website
-- [baharemampour.vercel.app](https://baharemampour.vercel.app) — this portfolio, built with AI tools
 
 ## Stack
 
